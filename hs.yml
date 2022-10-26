@@ -84,6 +84,16 @@
         volumes: homer:/www/assets
         restart_policy: unless-stopped
 
+    - name: Copy custom config.yml
+      template:
+        src: homer/config.yml
+        dest: /var/lib/docker/volumes/homer/_data/
+
+    - name: Copy Pi-hole icon
+      copy:
+        src: homer/pi-hole.png
+        dest: /var/lib/docker/volumes/homer/_data/tools/
+
 - name: Install Pi-hole
   hosts: all
   become: true
