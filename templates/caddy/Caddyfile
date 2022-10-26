@@ -9,3 +9,7 @@ pi.{{ url }} {
 sync.{{ url }} {
    reverse_proxy localhost:8384
 }
+
+jelly.{{ url }} {
+   reverse_proxy localhost:8096
+}

@@ -75,3 +75,12 @@ services:
         tag: "app"
         url: "https://sync.{{ url }}"
         target: "_blank"
+  - name: "Media"
+    icon: "fa-solid fa-cloud"
+    items:
+      - name: "Jellyfin"
+        logo: "assets/tools/jellyfin.png"
+        subtitle: "Totally legal media"
+        tag: "app"
+        url: "https://jelly.terryport.xyz"
+        target: "_blank"
