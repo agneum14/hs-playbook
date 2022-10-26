@@ -112,3 +112,29 @@
           - pihole:/etc/pihole
           - dnsmasq.d:/etc/dnsmasq.d
         restart_policy: unless-stopped
+
+- name: Install Syncthing
+  hosts: all
+  become: true
+  tasks:
+    - name: Add signing key
+      ansible.builtin.apt_key:
+        url: "https://syncthing.net/release-key.gpg"
+        state: present
+
+    - name: Add repository to sources list
+      ansible.builtin.apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] "https://apt.syncthing.net/" syncthing stable
+        filename: syncthing
+
+    - name: Install Syncthing
+      ansible.builtin.apt:
+        name: syncthing
+        state: latest
+        update_cache: true
+
+    - name: Start and enable Syncthing
+      service:
+        name: syncthing@syncthing
+        state: started
+        enabled: yes
