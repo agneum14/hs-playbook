@@ -62,6 +62,16 @@
         state: latest
         update_cache: true
 
+    - name: Copy custom Caddyfile
+      template:
+        src: caddy/Caddyfile
+        dest: /etc/caddy/
+
+    - name: Restart Caddy
+      service:
+        name: caddy
+        state: restarted
+
 - name: Install Homer
   hosts: all
   become: true
