@@ -61,3 +61,15 @@
         name: caddy
         state: latest
         update_cache: true
+
+- name: Install Homer
+  hosts: all
+  become: true
+  tasks:
+    - name: Create Docker container
+      community.docker.docker_container:
+        name: homer
+        image: b4bz/homer
+        ports: 8080:8080
+        volumes: homer:/www/assets
+        restart_policy: always
