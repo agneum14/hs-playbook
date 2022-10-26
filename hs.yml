@@ -173,3 +173,42 @@
         name: jellyfin
         state: started
         enabled: yes
+
+- name: Install Nextcloud
+  hosts: all
+  become: true
+  tasks:
+    - name: Create donker network
+      docker_network:
+        name: donker
+
+    - name: Create MariaDB Docker container
+      community.docker.docker_container:
+        name: nextcloud_mariadb
+        image: mariadb:10.5
+        networks:
+          - name: donker
+        volumes: nextcloud_mariadb:/var/lib/mysql
+        env:
+          MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
+          MYSQL_PASSWORD: "{{ mysql_password }}"
+          MYSQL_DATABASE: nextcloud
+          MYSQL_USER: nextcloud
+        restart_policy: unless-stopped
+
+    - name: Create Nextcloud Docker container
+      community.docker.docker_container:
+        name: nextcloud
+        image: nextcloud
+        networks:
+          - name: bridge
+          - name: donker
+        ports: 8081:80
+        volumes: nextcloud:/var/www/html
+        env:
+          MYSQL_PASSWORD: "{{ mysql_password }}"
+          MYSQL_DATABASE: nextcloud
+          MYSQL_USER: nextcloud
+          MYSQL_HOST: nextcloud_mariadb
+        restart_policy: unless-stopped
+
