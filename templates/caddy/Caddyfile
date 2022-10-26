@@ -5,3 +5,7 @@
 pi.{{ url }} {
    reverse_proxy localhost:81
 }
+
+sync.{{ url }} {
+   reverse_proxy localhost:8384
+}
