@@ -13,3 +13,7 @@ sync.{{ url }} {
 jelly.{{ url }} {
    reverse_proxy localhost:8096
 }
+
+trans.{{ url }} {
+   reverse_proxy localhost:9091
+}
