@@ -212,3 +212,8 @@
           MYSQL_HOST: nextcloud_mariadb
         restart_policy: unless-stopped
 
+    - name: add url to list of trusted domains
+      lineinfile:
+        path: /var/lib/docker/volumes/nextcloud/_data/config/config.php
+        insertafter: "^    0 => '1"
+        line: "    1 => 'next.{{ url }}',"
