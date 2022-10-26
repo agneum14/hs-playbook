@@ -33,3 +33,31 @@
           - docker-registry
         state: latest
         update_cache: true
+
+- name: Install Caddy
+  hosts: all
+  become: true
+  tasks:
+    - name: Install dependencies
+      ansible.builtin.apt:
+        name:
+          - debian-keyring
+          - debian-archive-keyring
+          - apt-transport-https
+        state: latest
+        update_cache: true
+
+    - name: Add signing key
+      ansible.builtin.apt_key:
+        url: "https://dl.cloudsmith.io/public/caddy/stable/gpg.key"
+
+    - name: Add repository into sources list
+      ansible.builtin.apt_repository:
+        repo: deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian {{ ansible_distribution_release }} main
+        filename: caddy
+
+    - name: Install Caddy
+      ansible.builtin.apt:
+        name: caddy
+        state: latest
+        update_cache: true
