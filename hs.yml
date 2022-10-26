@@ -139,3 +139,37 @@
         name: syncthing@syncthing
         state: started
         enabled: yes
+
+- name: Install Jellyfin
+  hosts: all
+  become: true
+  tasks:
+    - name: Install dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - gnupg
+          - lsb-release
+        state: latest
+        update_cache: true
+
+    - name: Add signing key
+      apt_key:
+        url: "https://repo.jellyfin.org/debian/jellyfin_team.gpg.key"
+        keyring: /etc/apt/trusted.gpg.d/debian-jellyfin.gpg
+
+    - name: Add repository to sources list
+      apt_repository:
+        repo: deb [arch={{ ansible_architecture }}] "https://repo.jellyfin.org/{{ ansible_distribution | lower }}" {{ ansible_distribution_release }} main
+        filename: jellyfin
+
+    - name: Install Jellyfin
+      apt:
+        name: jellyfin
+        state: latest
+
+    - name: Start and enable Jellyfin
+      service:
+        name: jellyfin
+        state: started
+        enabled: yes
