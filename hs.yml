@@ -82,4 +82,23 @@
         image: b4bz/homer
         ports: 8080:8080
         volumes: homer:/www/assets
-        restart_policy: always
+        restart_policy: unless-stopped
+
+- name: Install Pi-hole
+  hosts: all
+  become: true
+  tasks:
+    - name: create Docker container
+      community.docker.docker_container:
+        name: pihole
+        image: pihole/pihole
+        ports:
+          - 53:53/tcp
+          - 53:53/udp
+          - 81:80
+        env:
+          TZ: "America/New_York"
+        volumes:
+          - pihole:/etc/pihole
+          - dnsmasq.d:/etc/dnsmasq.d
+        restart_policy: unless-stopped
