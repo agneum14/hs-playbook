@@ -17,3 +17,7 @@ jelly.{{ url }} {
 trans.{{ url }} {
    reverse_proxy localhost:9091
 }
+
+next.{{ url }} {
+   reverse_proxy localhost:8081
+}
