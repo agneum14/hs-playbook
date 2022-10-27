@@ -182,16 +182,16 @@
   hosts: all
   become: true
   tasks:
-    - name: Create donker network
+    - name: Create nextcloud network
       docker_network:
-        name: donker
+        name: nextcloud
 
     - name: create Redis Docker container
       docker_container:
         name: nextcloud_redis
         image: redis
         networks:
-          - name: donker
+          - name: nextcloud
         command: redis-server --requirepass {{ redis_pass }}
         restart_policy: always
 
@@ -200,7 +200,7 @@
         name: nextcloud_mariadb
         image: mariadb:10.5
         networks:
-          - name: donker
+          - name: nextcloud
         volumes: nextcloud_mariadb:/var/lib/mysql
         env:
           MYSQL_ROOT_PASSWORD: "{{ mysql_root_password }}"
@@ -215,7 +215,7 @@
         image: nextcloud
         networks:
           - name: bridge
-          - name: donker
+          - name: nextcloud
         ports: 8081:80
         volumes:
           - nextcloud:/var/www/html
