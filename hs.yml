@@ -235,3 +235,17 @@
         path: /var/lib/docker/volumes/nextcloud/_data/config/config.php
         insertafter: "^    0 => '1"
         line: "    1 => 'next.{{ url }}',"
+
+- name: Install Mealie
+  hosts: all
+  become: true
+  tasks:
+    - name: Mealie - Create Docker container
+      docker_container:
+        name: mealie
+        image: hkotel/mealie
+        ports: 9925:80
+        volumes: mealie_data:/app/data
+        env:
+          TZ: America/New_York
+        restart_policy: unless-stopped
