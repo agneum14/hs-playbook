@@ -21,3 +21,7 @@ trans.{{ url }} {
 next.{{ url }} {
    reverse_proxy localhost:8081
 }
+
+meal.{{ url }} {
+   reverse_proxy localhost:9925
+}

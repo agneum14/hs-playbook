@@ -28,7 +28,6 @@
       ansible.builtin.apt:
         name:
           - docker
-          - docker.io
           - docker-compose
           - docker-registry
         state: latest

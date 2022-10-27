@@ -100,3 +100,12 @@ services:
         tag: "app"
         url: "https://trans.terryport.xyz"
         target: "_blank"
+  - name: "Public"
+    icon: "fa-solid fa-lock-open"
+    items:
+      - name: "Mealie"
+        logo: "assets/tools/mealie.png"
+        subtitle: "Cookin' up a storm"
+        tag: "app"
+        url: "https://meal.terryport.xyz"
+        target: "_blank"
