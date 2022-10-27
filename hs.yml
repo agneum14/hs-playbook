@@ -187,6 +187,15 @@
       docker_network:
         name: donker
 
+    - name: create Redis Docker container
+      docker_container:
+        name: nextcloud_redis
+        image: redis
+        networks:
+          - name: donker
+        command: redis-server --requirepass {{ redis_pass }}
+        restart_policy: always
+
     - name: Create MariaDB Docker container
       community.docker.docker_container:
         name: nextcloud_mariadb
@@ -209,12 +218,16 @@
           - name: bridge
           - name: donker
         ports: 8081:80
-        volumes: nextcloud:/var/www/html
+        volumes:
+          - nextcloud:/var/www/html
+          - nextcloud_data:/var/www/html/data
         env:
           MYSQL_PASSWORD: "{{ mysql_password }}"
           MYSQL_DATABASE: nextcloud
           MYSQL_USER: nextcloud
           MYSQL_HOST: nextcloud_mariadb
+          REDIS_HOST: nextcloud_redis
+          REDIS_HOST_PASSWORD: "{{ redis_pass }}"
         restart_policy: unless-stopped
 
     - name: add url to list of trusted domains
