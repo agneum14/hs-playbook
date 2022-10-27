@@ -95,6 +95,11 @@
         dest: /var/lib/docker/volumes/homer/_data/tools/
       with_fileglob: homer/*.png
 
+    - name: Copy Dracula css theme
+      copy:
+        src: homer/custom.css
+        dest: /var/lib/docker/volumes/homer/_data/
+
 - name: Install Pi-hole
   hosts: all
   become: true

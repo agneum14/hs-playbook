@@ -5,6 +5,10 @@
 title: "Demo dashboard"
 subtitle: "Homer"
 logo: "logo.png"
+stylesheet:
+  - "assets/custom.css"
+defaults:
+  colorTheme: dark
 # icon: "fas fa-skull-crossbones" # Optional icon
 
 header: true
